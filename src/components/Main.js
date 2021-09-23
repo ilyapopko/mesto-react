@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import PopupWithForm from "../popupWithForm/PopupWithForm";
-
-import {apiServer} from "../../utils/Api";
+import PopupWithForm from "./PopupWithForm";
+import {apiServer} from "../utils/Api";
+import Card from "./Card";
+import ImagePopup from "./ImagePopup";
 
 const Main = (props) => {
 
@@ -29,7 +30,7 @@ const Main = (props) => {
       })
       .catch(err => {
         console.log(err);
-      });//.finally(()=>{console.log(cards)});
+      });
   }, []);
 
 
@@ -51,17 +52,7 @@ const Main = (props) => {
       <section className="cards">
         {cards.map(item => {
           return (
-            <article key={item._id} className="card">
-              <img src={item.link} alt="Фотография" className="card__image"/>
-              <button className="card__delete-button" type="button" aria-label="Удалить карточку"/>
-              <div className="card__description">
-                <h2 className="card__caption">{item.name}</h2>
-                <div className="card__like-container">
-                  <button className="card__like-button" type="button" aria-label="Лайкнуть"/>
-                  <p className="card__like-count">{item.likes.length}</p>
-                </div>
-              </div>
-            </article>
+            <Card key={item._id} card={item} onCardClick={props.onCardClick}/>
           )
         })
         }
@@ -72,6 +63,8 @@ const Main = (props) => {
       <PopupWithForm title="Редактировать профиль" name="profile" isOpen={props.isEditProfilePopupOpen}
                      onClose={props.onClose}/>
       <PopupWithForm title="Новое место" name="addCard" isOpen={props.isAddCardPopupOpen} onClose={props.onClose}/>
+
+      <ImagePopup card={props.card} onClose={props.onClose}/>
 
       {/*<PopupWithForm title="Вы уверены?" name="confirmDelete" isOpen={props.isEditAvatarPopupOpen}/>*/}
 
