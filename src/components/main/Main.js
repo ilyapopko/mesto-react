@@ -3,15 +3,18 @@ import React from 'react';
 const Main = () => {
 
   function handleEditAvatarClick() {
-    console.log('click for avatar')
+    const popupEditAvatar = document.querySelector('.popup_edit-avatar');
+    popupEditAvatar.classList.add('popup_opened');
   }
 
   function handleEditProfileClick() {
-    console.log('click for profile')
+    const popupEditProfile = document.querySelector('.popup_edit-profile');
+    popupEditProfile.classList.add('popup_opened');
   }
 
-  function handleAddPlaceClick() {
-    console.log('click for add card')
+  function handleAddCardClick() {
+    const popupAddCard = document.querySelector('.popup_add-card');
+    popupAddCard.classList.add('popup_opened');
   }
 
   return (
@@ -24,10 +27,12 @@ const Main = () => {
         <h1 className="profile__name"/>
         <button className="profile__edit-button" type="button" aria-label="Редактировать профиль" onClick={handleEditProfileClick}/>
         <p className="profile__specialization"/>
-        <button className="profile__add-button" type="button" aria-label="Добавить фото" onClick={handleAddPlaceClick}/>
+        <button className="profile__add-button" type="button" aria-label="Добавить фото" onClick={handleAddCardClick}/>
       </section>
+
       <section className="cards">
       </section>
+
       <article className="popup popup_edit-profile">
         <form action="#" className="popup__container" name="formEditProfile" id="formEditProfile" noValidate>
           <h2 className="popup__heading">Редактировать профиль</h2>
