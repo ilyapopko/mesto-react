@@ -2,15 +2,42 @@
 //import './App.css';
 //import appLogo from './images/logo.svg';
 
+import {useState} from "react";
+
 import Header from "./header/Header";
 import Main from "./main/Main";
 import Footer from "./footer/Footer";
 
 function App() {
+
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
+
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
+
+  function handleAddCardClick() {
+    setIsAddCardPopupOpen(true);
+  }
+
+  function handleCloseAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddCardPopupOpen(false);
+  }
+
   return (
     <div className="page__container">
       <Header/>
-      <Main/>
+      <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddCard={handleAddCardClick}
+            onClose={handleCloseAllPopups} isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+            isEditProfilePopupOpen={isEditProfilePopupOpen} isAddCardPopupOpen={isAddCardPopupOpen}/>
       <Footer/>
 
       <template id="card-template">
