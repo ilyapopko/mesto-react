@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import PopupWithForm from "./PopupWithForm";
+// import PopupWithForm from "./PopupWithForm";
 import {apiServer} from "../utils/Api";
 import Card from "./Card";
-import ImagePopup from "./ImagePopup";
+// import ImagePopup from "./ImagePopup";
 
 const Main = (props) => {
 
@@ -57,16 +57,6 @@ const Main = (props) => {
         })
         }
       </section>
-
-      <PopupWithForm title="Обновить аватар" name="avatar" isOpen={props.isEditAvatarPopupOpen}
-                     onClose={props.onClose}/>
-      <PopupWithForm title="Редактировать профиль" name="profile" isOpen={props.isEditProfilePopupOpen}
-                     onClose={props.onClose}/>
-      <PopupWithForm title="Новое место" name="addCard" isOpen={props.isAddCardPopupOpen} onClose={props.onClose}/>
-
-      <ImagePopup card={props.card} onClose={props.onClose}/>
-
-      {/*<PopupWithForm title="Вы уверены?" name="confirmDelete" isOpen={props.isEditAvatarPopupOpen}/>*/}
 
     </main>
   );
