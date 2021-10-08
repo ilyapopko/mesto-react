@@ -1,63 +1,33 @@
-import React, {useEffect, useState} from 'react';
-// import PopupWithForm from "./PopupWithForm";
-import {apiServer} from "../utils/Api";
+import React, {useContext, useEffect, useState} from 'react';
 import Card from "./Card";
-// import ImagePopup from "./ImagePopup";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 const Main = (props) => {
-
-  const [userName, setUserName] = useState('');
-  const [userDescription, setUserDescription] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    apiServer.getUserProperties()
-      .then((userData) => {
-        setUserName(userData.name);
-        setUserDescription(userData.about);
-        setUserAvatar(userData.avatar);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    apiServer.getAllCards()
-      .then((cardsData) => {
-        setCards(cardsData);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
-
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main>
       <section className="profile">
         <div className="profile__avatar-container">
-          <img className="profile__avatar" src={userAvatar} alt="Аватарка"/>
+          <img className="profile__avatar" src={currentUser.avatar} alt="Аватарка"/>
           <button className="profile__edit-avatar-button" type="button" aria-label="Редактировать аватарку"
                   onClick={props.onEditAvatar}/>
         </div>
-        <h1 className="profile__name">{userName}</h1>
+        <h1 className="profile__name">{currentUser.name}</h1>
         <button className="profile__edit-button" type="button" aria-label="Редактировать профиль"
                 onClick={props.onEditProfile}/>
-        <p className="profile__specialization">{userDescription}</p>
+        <p className="profile__specialization">{currentUser.about}</p>
         <button className="profile__add-button" type="button" aria-label="Добавить фото" onClick={props.onAddCard}/>
       </section>
-
       <section className="cards">
-        {cards.map(item => {
+        {props.cards.map(item => {
           return (
-            <Card key={item._id} card={item} onCardClick={props.onCardClick}/>
+            <Card key={item._id} card={item} onCardClick={props.onCardClick} onCardLike={props.onCardLike}
+                  onCardDelete={props.onCardDelete}/>
           )
         })
         }
       </section>
-
     </main>
   );
 };
