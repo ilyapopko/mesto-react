@@ -8,6 +8,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onSetSubmitDisabled, onCheck
   const [isLinkValid, setIsLinkValid] = useState(false);
   const [errorMessageName, setErrorMessageName] = useState('');
   const [errorMessageLink, setErrorMessageLink] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setName('');
@@ -36,15 +37,21 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onSetSubmitDisabled, onCheck
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsLoading(true);
+    onSetSubmitDisabled(true);
     onAddCard({
       name,
       link
-    });
+    })
+      .finally(() => {
+        setIsLoading(false);
+        onSetSubmitDisabled(false);
+      });
   }
 
   return (
     <PopupWithForm title="Новое место" name="addCard" isOpen={isOpen} onClose={onClose}
-                   submitHeader="Добавить" onSubmit={handleSubmit}>
+                   submitDescription={isLoading ? 'Добавление...' : 'Добавить'} onSubmit={handleSubmit}>
       <input value={name} type="text" className="popup__edit-field" id="place-name" placeholder="Название" name="name"
              minLength="2" maxLength="30" required onChange={handleNameChange}/>
       <span id="place-name-error"

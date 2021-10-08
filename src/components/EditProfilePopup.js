@@ -9,6 +9,7 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onSetSubmitDisabled, o
   const [isAboutValid, setIsAboutValid] = useState(true);
   const [errorMessageName, setErrorMessageName] = useState('');
   const [errorMessageAbout, setErrorMessageAbout] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
@@ -38,15 +39,19 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onSetSubmitDisabled, o
 
   function handleSubmit(e) {
     e.preventDefault();
-    onUpdateUser({
-      name,
-      about
-    });
+    setIsLoading(true);
+    onSetSubmitDisabled(true);
+    onUpdateUser({name, about})
+      .finally(() => {
+        setIsLoading(false);
+        onSetSubmitDisabled(false);
+      });
   }
 
   return (
     <PopupWithForm title="Редактировать профиль" name="profile" isOpen={isOpen}
-                   onClose={onClose} submitHeader="Сохранить" onSubmit={handleSubmit}>
+                   onClose={onClose} submitDescription={isLoading ? 'Сохранение...' : 'Сохранить'}
+                   onSubmit={handleSubmit}>
       <input value={name} type="text" className="popup__edit-field" id="author-name" placeholder="Автор" name="name"
              onChange={handleNameChange}
              minLength="2"

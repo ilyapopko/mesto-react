@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {StateButtonSubmit} from "../contexts/StateButtonSubmit";
 
-const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitHeader, children}) => {
+const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitDescription, children}) => {
   const isSubmitButtonDisabled = useContext(StateButtonSubmit);
 
   return (
@@ -13,7 +13,7 @@ const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitHeader, ch
           <button className={`popup__save-button ${isSubmitButtonDisabled && 'popup__save-button_disabled'}`}
                   type="submit" aria-label="Сохранить изменения"
                   disabled={isSubmitButtonDisabled}
-          >{submitHeader}</button>
+          >{submitDescription}</button>
         </fieldset>
         <button className="popup__close-button" type="button" aria-label="Закрыть" onClick={onClose}/>
       </form>

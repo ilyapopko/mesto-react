@@ -6,6 +6,8 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar, onSetSubmitDisabled, 
   const [avatar, setAvatar] = useState('');
   const [isAvatarValid, setIsAvatarValid] = useState(true);
   const [errorMessageAvatar, setErrorMessageAvatar] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
@@ -26,12 +28,19 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar, onSetSubmitDisabled, 
 
   function handleSubmit(e) {
     e.preventDefault();
-    onUpdateAvatar(avatar);
+    setIsLoading(true);
+    onSetSubmitDisabled(true);
+    onUpdateAvatar(avatar)
+      .finally(() => {
+        setIsLoading(false);
+        onSetSubmitDisabled(false);
+      });
   }
 
   return (
     <PopupWithForm title="Обновить аватар" name="avatar" isOpen={isOpen}
-                   onClose={onClose} submitHeader="Сохранить" onSubmit={handleSubmit}>
+                   onClose={onClose} submitDescription={isLoading ? 'Сохранение...' : 'Сохранить'}
+                   onSubmit={handleSubmit}>
       <input type="url" value={avatar} className="popup__edit-field" id="avatar-link" name="avatar"
              onChange={handleAvatarChange}
              placeholder="Ссылка на картинку"

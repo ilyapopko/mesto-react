@@ -22,7 +22,6 @@ function App() {
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 
   useEffect(() => {
@@ -54,26 +53,24 @@ function App() {
     setIsEditProfilePopupOpen(true);
   }
 
-  function handleUpdateUser(data) {
-    apiServer.updateUserProperties(data)
-      .then((updateData) => {
-        setCurrentUser(updateData);
-        handleCloseAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async function handleUpdateUser(data) {
+    try {
+      const updateData = await apiServer.updateUserProperties(data);
+      setCurrentUser(updateData);
+      handleCloseAllPopups();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  function handleUpdateAvatar(link) {
-    apiServer.updateUserAvatar(link)
-      .then(updateData => {
-        setCurrentUser(updateData);
-        handleCloseAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async function handleUpdateAvatar(link) {
+    try {
+      const updateData = await apiServer.updateUserAvatar(link);
+      setCurrentUser(updateData);
+      handleCloseAllPopups();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function handleAddCardClick() {
@@ -105,28 +102,26 @@ function App() {
     setIsConfirmDeletePopupOpen(true);
   }
 
-  function handleAddCardSubmit(data) {
-    apiServer.addCard(data)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        handleCloseAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async function handleAddCardSubmit(data) {
+    try {
+      const newCard = await apiServer.addCard(data);
+      setCards([newCard, ...cards]);
+      handleCloseAllPopups();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  function handleDeleteCardSubmit(card) {
-    apiServer.deleteCard(card._id)
-      .then(() => {
-        setCards((cards) => {
-          return cards.filter((c) => c._id !== card._id);
-        });
-        handleCloseAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
+  async function handleDeleteCardSubmit(card) {
+    try {
+      await apiServer.deleteCard(card._id);
+      setCards((cards) => {
+        return cards.filter((c) => c._id !== card._id);
       });
+      handleCloseAllPopups();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function handleCloseAllPopups() {
@@ -147,10 +142,6 @@ function App() {
     }
   }
 
-  function handleSetSubmitDisabled(condition) {
-    setIsSubmitButtonDisabled(condition);
-  }
-
   //Ибо тернарный оператор выглядит уродливо
   if (isLoading) {
     return (<Spinner/>);
@@ -169,19 +160,18 @@ function App() {
         <StateButtonSubmit.Provider value={isSubmitButtonDisabled}>
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups}
                            onUpdateAvatar={handleUpdateAvatar} onCheckValidation={checkInputValidation}
-                           onSetSubmitDisabled={handleSetSubmitDisabled}/>
+                           onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={handleCloseAllPopups}
                             onUpdateUser={handleUpdateUser} onCheckValidation={checkInputValidation}
-                            onSetSubmitDisabled={handleSetSubmitDisabled}/>
+                            onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
           <AddPlacePopup isOpen={isAddCardPopupOpen} onClose={handleCloseAllPopups} onAddCard={handleAddCardSubmit}
                          onCheckValidation={checkInputValidation}
-                         onSetSubmitDisabled={handleSetSubmitDisabled}/>
+                         onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
+          <ConfirmDeletePopup card={selectedCard} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups}
+                              onDeleteCard={handleDeleteCardSubmit} onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
         </StateButtonSubmit.Provider>
 
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={handleCloseAllPopups}/>
-
-        <ConfirmDeletePopup card={selectedCard} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups}
-                            onDeleteCard={handleDeleteCardSubmit}/>
 
         <Footer/>
       </div>
