@@ -82,8 +82,24 @@ function App() {
     setIsImagePopupOpen(true);
   }
 
+  function tempToggleLikeCard(card, isLiked) {
+    if (isLiked) {
+      card.likes = card.likes.filter((user) => user._id !== currentUser._id);
+    } else {
+      card.likes.push(currentUser);
+    }
+    setCards((cards) => {
+      return cards.map((c) => {
+        return c._id === card._id ? card : c;
+      })
+    });
+  }
+
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
+    //Добавляем/удаляем текущего юзера в массив лайков карточки временно до получения ответа
+    // от сервера для ускорения реакции интерфейса
+    tempToggleLikeCard(card, isLiked);
     apiServer.setLikeCard(isLiked, card._id)
       .then((updateCard) => {
         setCards((cards) => {
@@ -94,6 +110,8 @@ function App() {
       })
       .catch(err => {
         console.log(err);
+        //обратим действие временной функции так как сервер вернул ошибку
+        tempToggleLikeCard(card, !isLiked);
       });
   }
 
