@@ -9,6 +9,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {apiServer} from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import ConfirmDeletePopup from "./ConfirmDeletePopup";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +18,10 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
+
   const [selectedCard, setSelectedCard] = useState(null);
+  const [cardToDeleted, setCardToDeleted] = useState(null);
 
   useEffect(() => {
     apiServer.getUserProperties()
@@ -94,16 +98,8 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    //TODO: Добавить поддержку подтверждения удаления
-    apiServer.deleteCard(card._id)
-      .then(() => {
-        setCards((cards) => {
-          return cards.filter((c) => c._id !== card._id);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    setCardToDeleted(card);
+    setIsConfirmDeletePopupOpen(true);
   }
 
   function handleAddCardSubmit(data) {
@@ -117,13 +113,29 @@ function App() {
       });
   }
 
+  function handleDeleteCardSubmit(card) {
+    apiServer.deleteCard(card._id)
+      .then(() => {
+        setCards((cards) => {
+          return cards.filter((c) => c._id !== card._id);
+        });
+        handleCloseAllPopups();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   function handleCloseAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddCardPopupOpen(false);
+    setIsConfirmDeletePopupOpen(false);
     setSelectedCard(null);
+    setCardToDeleted(null);
   }
 
+  //Ибо тернарный оператор выглядит уродливо
   if (isLoading) {
     return (<Spinner/>);
   }
@@ -148,7 +160,7 @@ function App() {
 
         <ImagePopup card={selectedCard} onClose={handleCloseAllPopups}/>
 
-        {/*<PopupWithForm title="Вы уверены?" name="confirmDelete" isOpen={isEditAvatarPopupOpen}/>*/}
+        <ConfirmDeletePopup card={cardToDeleted} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups} onDeleteCard={handleDeleteCardSubmit}/>
 
         <Footer/>
       </div>
