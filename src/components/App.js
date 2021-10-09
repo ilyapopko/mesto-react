@@ -8,6 +8,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
+import ViewAuthorPopup from "./ViewAuthorPopup";
 import {apiServer} from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
@@ -22,6 +23,7 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
+  const [isViewAuthorPopupOpen, setIsViewAuthorPopupOpen] = useState(false);
 
   useEffect(() => {
     apiServer.getUserProperties()
@@ -147,6 +149,7 @@ function App() {
     setIsAddCardPopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsViewAuthorPopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -157,6 +160,21 @@ function App() {
     } else {
       setValid(true);
     }
+  }
+
+  function handleHoverCardCaption(card) {
+    // console.log(isViewAuthorPopupOpen);
+    // if (isViewAuthorPopupOpen) {
+    //   return;
+    // }
+    // console.log('naveli');
+    // setSelectedCard(card);
+    // setIsViewAuthorPopupOpen(true);
+  }
+
+  function handleOutHoverCardCaption() {
+    // console.log('closed');
+    // handleCloseAllPopups();
   }
 
   //Ибо тернарный оператор выглядит уродливо
@@ -172,7 +190,8 @@ function App() {
               onEditProfile={handleEditProfileClick}
               onAddCard={handleAddCardClick}
               onClose={handleCloseAllPopups} onCardClick={handleCardClick} onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}/>
+              onCardDelete={handleCardDelete} onHoverCardCaption={handleHoverCardCaption}
+              onOutHoverCardCaption={handleOutHoverCardCaption}/>
 
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups}
                          onUpdateAvatar={handleUpdateAvatar} onCheckValidation={checkInputValidation}/>
@@ -183,6 +202,8 @@ function App() {
         <ConfirmDeletePopup card={selectedCard} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups}
                             onDeleteCard={handleDeleteCardSubmit}/>
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={handleCloseAllPopups}/>
+
+        <ViewAuthorPopup card={selectedCard} isOpen={isViewAuthorPopupOpen}/>
 
         <Footer/>
       </div>

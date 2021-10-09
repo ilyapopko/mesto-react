@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
@@ -57,12 +57,12 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
       <input value={name} type="text" className="popup__edit-field" id="place-name" placeholder="Название" name="name"
              minLength="2" maxLength="30" required onChange={handleNameChange}/>
       <span id="place-name-error"
-            className={`popup__input-error ${!isNameValid && 'popup__input-error_visible'}`}>{errorMessageName}</span>
+            className={`popup__input-error ${!isNameValid ? 'popup__input-error_visible' : ''}`}>{errorMessageName}</span>
       <input value={link} type="url" className="popup__edit-field" id="place-link" placeholder="Ссылка на картинку"
              name="link"
              required onChange={handleLinkChange}/>
       <span id="place-link-error"
-            className={`popup__input-error ${!isLinkValid && 'popup__input-error_visible'}`}>{errorMessageLink}</span>
+            className={`popup__input-error ${!isLinkValid ? 'popup__input-error_visible' : ''}`}>{errorMessageLink}</span>
     </PopupWithForm>
   );
 };

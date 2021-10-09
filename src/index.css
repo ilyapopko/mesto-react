@@ -36,7 +36,15 @@
 
 @import url("./blocks/popup/__loader/popup__loader.css");
 @import url("./blocks/popup/_smooth-control/popup_smooth-control.css");
-@import url("./blocks/popup/_view-card/popup_view-card.css");
+
+/*@import url("./blocks/popup/_view-card/popup_view-card.css");*/
+@import url("./blocks/popup/_type/popup_type_view-card.css");
+@import url("./blocks/popup/_type/popup_type_view-author.css");
+@import url("./blocks/popup/_type/popup_type_view-likes.css");
+@import url("./blocks/popup/_type/popup_type_error.css");
+@import url("./blocks/popup/_type/popup_type_user.css");
+@import url("./blocks/popup/_type/popup_type_loader.css");
+
 @import url("./blocks/popup/_opened/popup_opened.css");
 @import url("./blocks/popup/__container/popup__container.css");
 @import url("./blocks/popup/__heading/popup__heading.css");
@@ -53,3 +61,6 @@
 @import url("./blocks/popup/__input-error/_visible/popup__input-error_visible.css");
 @import url("./blocks/popup/__save-button/_disabled/popup__save-button_disabled.css");
 
+@import url("./blocks/popup/__card-author-name/popup__card-author-name.css");
+@import url("./blocks/popup/__card-author-avatar/popup__card-author-avatar.css");
+@import url("./blocks/popup/__card-author-about/popup__card-author-about.css");

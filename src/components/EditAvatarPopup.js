@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
@@ -47,7 +47,7 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar, onCheckValidation}) =
              placeholder="Ссылка на картинку"
              required/>
       <span id="avatar-link-error"
-            className={`popup__input-error ${!isAvatarValid && 'popup__input-error_visible'}`}>{errorMessageAvatar}</span>
+            className={`popup__input-error ${!isAvatarValid ? 'popup__input-error_visible' : ''}`}>{errorMessageAvatar}</span>
     </PopupWithForm>
   );
 };

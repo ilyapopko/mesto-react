@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import PopupWithForm from "./PopupWithForm";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
@@ -58,15 +58,14 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onCheckValidation}) =>
              minLength="2"
              maxLength="40" required/>
       <span id="author-name-error"
-            className={`popup__input-error ${!isNameValid && 'popup__input-error_visible'}`}>{errorMessageName}</span>
+            className={`popup__input-error ${!isNameValid ? 'popup__input-error_visible' : ''}`}>{errorMessageName}</span>
       <input value={about} type="text" className="popup__edit-field" id="author-specialization" placeholder="О себе"
              onChange={handleAboutChange}
              name="about"
              minLength="2" maxLength="200" required/>
       <span id="author-specialization-error"
-            className={`popup__input-error ${!isAboutValid && 'popup__input-error_visible'}`}>{errorMessageAbout}</span>
+            className={`popup__input-error ${!isAboutValid ? 'popup__input-error_visible' : ''}`}>{errorMessageAbout}</span>
     </PopupWithForm>
-
   );
 };
 
