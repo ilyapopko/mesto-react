@@ -2,23 +2,23 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar, onSetSubmitDisabled, onCheckValidation}) => {
+const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar, onCheckValidation}) => {
   const [avatar, setAvatar] = useState('');
   const [isAvatarValid, setIsAvatarValid] = useState(true);
   const [errorMessageAvatar, setErrorMessageAvatar] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     setAvatar(currentUser.avatar);
     setIsAvatarValid(true);
     setErrorMessageAvatar('');
-    onSetSubmitDisabled(false);
+    setIsSubmitDisabled(false);
   }, [currentUser, isOpen]);
 
   useEffect(() => {
-    onSetSubmitDisabled(!isAvatarValid);
+    setIsSubmitDisabled(!isAvatarValid);
   }, [isAvatarValid]);
 
   function handleAvatarChange(e) {
@@ -29,18 +29,18 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar, onSetSubmitDisabled, 
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    onSetSubmitDisabled(true);
+    setIsSubmitDisabled(true);
     onUpdateAvatar(avatar)
       .finally(() => {
         setIsLoading(false);
-        onSetSubmitDisabled(false);
+        setIsSubmitDisabled(false);
       });
   }
 
   return (
     <PopupWithForm title="Обновить аватар" name="avatar" isOpen={isOpen}
                    onClose={onClose} submitDescription={isLoading ? 'Сохранение...' : 'Сохранить'}
-                   onSubmit={handleSubmit}>
+                   onSubmit={handleSubmit} isSubmitDisabled={isSubmitDisabled}>
       <input type="url" value={avatar} className="popup__edit-field" id="avatar-link" name="avatar"
              onChange={handleAvatarChange}
              placeholder="Ссылка на картинку"

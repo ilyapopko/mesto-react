@@ -10,7 +10,6 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import {apiServer} from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
-import {StateButtonSubmit} from "../contexts/StateButtonSubmit";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +21,7 @@ function App() {
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
+
 
   useEffect(() => {
     apiServer.getUserProperties()
@@ -175,20 +174,14 @@ function App() {
               onClose={handleCloseAllPopups} onCardClick={handleCardClick} onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}/>
 
-        <StateButtonSubmit.Provider value={isSubmitButtonDisabled}>
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups}
-                           onUpdateAvatar={handleUpdateAvatar} onCheckValidation={checkInputValidation}
-                           onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={handleCloseAllPopups}
-                            onUpdateUser={handleUpdateUser} onCheckValidation={checkInputValidation}
-                            onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
-          <AddPlacePopup isOpen={isAddCardPopupOpen} onClose={handleCloseAllPopups} onAddCard={handleAddCardSubmit}
-                         onCheckValidation={checkInputValidation}
-                         onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
-          <ConfirmDeletePopup card={selectedCard} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups}
-                              onDeleteCard={handleDeleteCardSubmit} onSetSubmitDisabled={setIsSubmitButtonDisabled}/>
-        </StateButtonSubmit.Provider>
-
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups}
+                         onUpdateAvatar={handleUpdateAvatar} onCheckValidation={checkInputValidation}/>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={handleCloseAllPopups}
+                          onUpdateUser={handleUpdateUser} onCheckValidation={checkInputValidation}/>
+        <AddPlacePopup isOpen={isAddCardPopupOpen} onClose={handleCloseAllPopups} onAddCard={handleAddCardSubmit}
+                       onCheckValidation={checkInputValidation}/>
+        <ConfirmDeletePopup card={selectedCard} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups}
+                            onDeleteCard={handleDeleteCardSubmit}/>
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={handleCloseAllPopups}/>
 
         <Footer/>

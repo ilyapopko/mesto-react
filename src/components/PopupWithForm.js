@@ -1,8 +1,7 @@
-import React, {useContext} from 'react';
-import {StateButtonSubmit} from "../contexts/StateButtonSubmit";
+import React from 'react';
 
-const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitDescription, children}) => {
-  const isSubmitButtonDisabled = useContext(StateButtonSubmit);
+const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitDescription, children, isSubmitDisabled}) => {
+
 
   return (
     <article className={`popup popup_type_${name} ${isOpen && 'popup_opened'}`}>
@@ -10,9 +9,9 @@ const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitDescriptio
         <h2 className="popup__heading">{title}</h2>
         <fieldset className="popup__container-info">
           {children}
-          <button className={`popup__save-button ${isSubmitButtonDisabled && 'popup__save-button_disabled'}`}
+          <button className={`popup__save-button ${isSubmitDisabled && 'popup__save-button_disabled'}`}
                   type="submit" aria-label="Сохранить изменения"
-                  disabled={isSubmitButtonDisabled}
+                  disabled={isSubmitDisabled}
           >{submitDescription}</button>
         </fieldset>
         <button className="popup__close-button" type="button" aria-label="Закрыть" onClick={onClose}/>

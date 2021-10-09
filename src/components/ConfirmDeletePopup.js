@@ -1,28 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 const ConfirmDeletePopup = ({isOpen, onClose, onDeleteCard, onSetSubmitDisabled, card}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
-  useEffect(() => {
-    onSetSubmitDisabled(false);
-  }, [isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    onSetSubmitDisabled(true);
+    setIsSubmitDisabled(true);
     onDeleteCard(card)
       .finally(() => {
         setIsLoading(false);
-        onSetSubmitDisabled(false);
+        setIsSubmitDisabled(false);
       });
   }
 
   return (
     <PopupWithForm title="Вы уверены?" name="confirmDelete" isOpen={isOpen}
                    onClose={onClose} submitDescription={isLoading ? 'Удаление...' : 'Да'}
-                   onSubmit={handleSubmit}/>
+                   onSubmit={handleSubmit} isSubmitDisabled={isSubmitDisabled}/>
   );
 };
 

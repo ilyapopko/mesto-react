@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
 
-const AddPlacePopup = ({isOpen, onClose, onAddCard, onSetSubmitDisabled, onCheckValidation}) => {
+const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const [isNameValid, setIsNameValid] = useState(false);
@@ -9,6 +9,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onSetSubmitDisabled, onCheck
   const [errorMessageName, setErrorMessageName] = useState('');
   const [errorMessageLink, setErrorMessageLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   useEffect(() => {
     setName('');
@@ -17,12 +18,12 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onSetSubmitDisabled, onCheck
     setIsLinkValid(false);
     setErrorMessageName('');
     setErrorMessageLink('');
-    onSetSubmitDisabled(true);
+    setIsSubmitDisabled(true);
 
   }, [isOpen]);
 
   useEffect(() => {
-    onSetSubmitDisabled(!(isNameValid && isLinkValid));
+    setIsSubmitDisabled(!(isNameValid && isLinkValid));
   }, [isNameValid, isLinkValid]);
 
   function handleNameChange(e) {
@@ -38,20 +39,21 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onSetSubmitDisabled, onCheck
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    onSetSubmitDisabled(true);
+    setIsSubmitDisabled(true);
     onAddCard({
       name,
       link
     })
       .finally(() => {
         setIsLoading(false);
-        onSetSubmitDisabled(false);
+        setIsSubmitDisabled(false);
       });
   }
 
   return (
     <PopupWithForm title="Новое место" name="addCard" isOpen={isOpen} onClose={onClose}
-                   submitDescription={isLoading ? 'Добавление...' : 'Добавить'} onSubmit={handleSubmit}>
+                   submitDescription={isLoading ? 'Добавление...' : 'Добавить'} onSubmit={handleSubmit}
+                   isSubmitDisabled={isSubmitDisabled}>
       <input value={name} type="text" className="popup__edit-field" id="place-name" placeholder="Название" name="name"
              minLength="2" maxLength="30" required onChange={handleNameChange}/>
       <span id="place-name-error"

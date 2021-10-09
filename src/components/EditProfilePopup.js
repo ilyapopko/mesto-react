@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import PopupWithForm from "./PopupWithForm";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onSetSubmitDisabled, onCheckValidation}) => {
+const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onCheckValidation}) => {
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
   const [isNameValid, setIsNameValid] = useState(true);
@@ -10,6 +10,7 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onSetSubmitDisabled, o
   const [errorMessageName, setErrorMessageName] = useState('');
   const [errorMessageAbout, setErrorMessageAbout] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
@@ -19,11 +20,11 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onSetSubmitDisabled, o
     setIsAboutValid(true);
     setErrorMessageName('');
     setErrorMessageAbout('');
-    onSetSubmitDisabled(false);
+    setIsSubmitDisabled(false);
   }, [currentUser, isOpen]);
 
   useEffect(() => {
-    onSetSubmitDisabled(!(isNameValid && isAboutValid));
+    setIsSubmitDisabled(!(isNameValid && isAboutValid));
   }, [isNameValid, isAboutValid]);
 
   function handleNameChange(e) {
@@ -40,18 +41,18 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser, onSetSubmitDisabled, o
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    onSetSubmitDisabled(true);
+    setIsSubmitDisabled(true);
     onUpdateUser({name, about})
       .finally(() => {
         setIsLoading(false);
-        onSetSubmitDisabled(false);
+        setIsSubmitDisabled(false);
       });
   }
 
   return (
     <PopupWithForm title="Редактировать профиль" name="profile" isOpen={isOpen}
                    onClose={onClose} submitDescription={isLoading ? 'Сохранение...' : 'Сохранить'}
-                   onSubmit={handleSubmit}>
+                   onSubmit={handleSubmit} isSubmitDisabled={isSubmitDisabled}>
       <input value={name} type="text" className="popup__edit-field" id="author-name" placeholder="Автор" name="name"
              onChange={handleNameChange}
              minLength="2"
