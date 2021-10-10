@@ -118,8 +118,6 @@ function App() {
       //обратим действие установочной функции так как сервер вернул ошибку
       toggleLikeCard(card, !isLiked, setUpdateCard);
     }
-    setUpdateCard(false);
-    setNeedUpdateViewLike(false);
   }
 
   function handleCardDelete(card) {
@@ -157,6 +155,7 @@ function App() {
     setIsImagePopupOpen(false);
     setIsViewAuthorPopupOpen(false);
     setIsViewLikePopupOpen(false);
+    setNeedUpdateViewLike(false);
     setSelectedCard(null);
   }
 

@@ -17,6 +17,7 @@ const Card = ({card, onCardClick, onCardLike, onCardDelete, onHoverCardCaption, 
   }
 
   function handleLikeClick() {
+    needUpdateCard[1](false); //обнулим флаг обновления
     onCardLike(card, needUpdateCard[1]);
   }
 
