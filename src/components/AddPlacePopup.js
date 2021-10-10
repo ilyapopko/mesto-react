@@ -51,7 +51,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
   }
 
   return (
-    <PopupWithForm title="Новое место" name="addCard" isOpen={isOpen} onClose={onClose}
+    <PopupWithForm title="Новое место" name="add-card" isOpen={isOpen} onClose={onClose}
                    submitDescription={isLoading ? 'Добавление...' : 'Добавить'} onSubmit={handleSubmit}
                    isSubmitDisabled={isSubmitDisabled}>
       <input value={name} type="text" className="popup__edit-field" id="place-name" placeholder="Название" name="name"

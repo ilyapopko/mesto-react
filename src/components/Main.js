@@ -11,7 +11,8 @@ const Main = ({
                 onCardLike,
                 onCardDelete,
                 onHoverCardCaption,
-                onOutHoverCardCaption
+                onHoverLikeCard,
+                onOutHover
               }) => {
   const currentUser = useContext(CurrentUserContext);
 
@@ -33,8 +34,8 @@ const Main = ({
         {cards.map(item => {
           return (
             <Card key={item._id} card={item} onCardClick={onCardClick} onCardLike={onCardLike}
-                  onCardDelete={onCardDelete} onHoverCardCaption={onHoverCardCaption}
-                  onOutHoverCardCaption={onOutHoverCardCaption}/>
+                  onCardDelete={onCardDelete} onHoverCardCaption={onHoverCardCaption} onHoverLikeCard={onHoverLikeCard}
+                  onOutHover={onOutHover}/>
           )
         })
         }

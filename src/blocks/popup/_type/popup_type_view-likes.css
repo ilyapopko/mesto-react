@@ -3,6 +3,7 @@
   background-color: rgba(0, 0, 0, .8);
   border-radius: 5px;
   padding: 10px;
+  min-width: 140px;
   max-width: 200px;
 }
 

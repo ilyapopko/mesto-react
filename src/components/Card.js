@@ -1,20 +1,23 @@
-import React, {useContext, useRef} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-const Card = ({card, onCardClick, onCardLike, onCardDelete, onHoverCardCaption, onOutHoverCardCaption}) => {
+const Card = ({card, onCardClick, onCardLike, onCardDelete, onHoverCardCaption, onHoverLikeCard, onOutHover}) => {
   const currentUser = useContext(CurrentUserContext);
   const imageRef = useRef();
+  const captionRef = useRef();
+  const likeRef = useRef();
   const isOwn = card.owner._id === currentUser._id;
   const isLiked = card.likes.some(i => i._id === currentUser._id);
   const cardDeleteButtonClassName = (`card__delete-button ${isOwn ? 'card__delete-button_visible' : 'card__delete-button_hidden'}`);
   const cardLikeButtonClassName = (`card__like-button ${isLiked ? 'card__like-button_active' : ''}`);
+  const needUpdateCard = useState(false);
 
   function handleClick() {
     onCardClick(card);
   }
 
   function handleLikeClick() {
-    onCardLike(card);
+    onCardLike(card, needUpdateCard[1]);
   }
 
   function handleDeleteClick() {
@@ -28,11 +31,35 @@ const Card = ({card, onCardClick, onCardLike, onCardDelete, onHoverCardCaption, 
   }
 
   function handleShowAuthorInfo(e) {
-    onHoverCardCaption(card);
+    const element = captionRef.current;
+    onHoverCardCaption(card,
+      {
+        left: element.offsetParent.offsetLeft + element.offsetLeft,
+        top: element.offsetParent.offsetTop + element.offsetTop,
+        right: document.documentElement.clientWidth - element.offsetParent.offsetLeft - element.offsetLeft,
+        bottom: document.documentElement.clientHeight - element.offsetParent.offsetTop - element.offsetTop,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+        clientY: e.clientY,
+      });
   }
 
-  function handleHideAuthorInfo(e) {
-    onOutHoverCardCaption();
+  function handleShowLikeInfo(e) {
+    const element = likeRef.current;
+    onHoverLikeCard(card,
+      {
+        left: element.offsetParent.offsetLeft + element.offsetLeft,
+        top: element.offsetParent.offsetTop + element.offsetTop,
+        right: document.documentElement.clientWidth - element.offsetParent.offsetLeft - element.offsetLeft,
+        bottom: document.documentElement.clientHeight - element.offsetParent.offsetTop - element.offsetTop,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+        clientY: e.clientY
+      });
+  }
+
+  function handleHideInfo() {
+    onOutHover();
   }
 
   return (
@@ -42,11 +69,11 @@ const Card = ({card, onCardClick, onCardLike, onCardDelete, onHoverCardCaption, 
       <button className={cardDeleteButtonClassName} type="button" aria-label="Удалить карточку"
               onClick={handleDeleteClick}/>
       <div className="card__description">
-        <h2
-          className="card__caption">{card.name} onMouseEnter={handleShowAuthorInfo} onMouseOut={handleHideAuthorInfo}
-        </h2>
+        <h2 className="card__caption" ref={captionRef} onMouseEnter={handleShowAuthorInfo}
+            onMouseOut={handleHideInfo}>{card.name}</h2>
         <div className="card__like-container">
-          <button className={cardLikeButtonClassName} type="button" aria-label="Лайкнуть" onClick={handleLikeClick}/>
+          <button className={cardLikeButtonClassName} type="button" aria-label="Лайкнуть" onClick={handleLikeClick}
+                  ref={likeRef} onMouseEnter={handleShowLikeInfo} onMouseOut={handleHideInfo}/>
           <p className="card__like-count">{card.likes.length}</p>
         </div>
       </div>

@@ -9,6 +9,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import ViewAuthorPopup from "./ViewAuthorPopup";
+import ViewLikePopup from "./ViewLikePopup";
 import {apiServer} from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
@@ -24,6 +25,18 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const [isViewAuthorPopupOpen, setIsViewAuthorPopupOpen] = useState(false);
+  const [isViewLikePopupOpen, setIsViewLikePopupOpen] = useState(false);
+  const [needUpdateViewLike, setNeedUpdateViewLike] = useState(false);
+  const [popupOutputArea, setPopupOutputArea] = useState({
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    width: 0,
+    height: 0,
+    clientY: 0
+  });
+
 
   useEffect(() => {
     apiServer.getUserProperties()
@@ -83,37 +96,30 @@ function App() {
     setIsImagePopupOpen(true);
   }
 
-  function tempToggleLikeCard(card, isLiked) {
+  function toggleLikeCard(card, isLiked, setUpdateCard) {
     if (isLiked) {
       card.likes = card.likes.filter((user) => user._id !== currentUser._id);
     } else {
       card.likes.push(currentUser);
     }
-    setCards((cards) => {
-      return cards.map((c) => {
-        return c._id === card._id ? card : c;
-      })
-    });
+    setUpdateCard(true);
+    setNeedUpdateViewLike(true);
   }
 
-  function handleCardLike(card) {
+  async function handleCardLike(card, setUpdateCard) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    //Добавляем/удаляем текущего юзера в массив лайков карточки временно до получения ответа
+    //Добавляем/удаляем текущего юзера в массив лайков карточки до получения ответа
     // от сервера для ускорения реакции интерфейса
-    tempToggleLikeCard(card, isLiked);
-    apiServer.setLikeCard(isLiked, card._id)
-      .then((updateCard) => {
-        setCards((cards) => {
-          return cards.map((c) => {
-            return c._id === card._id ? updateCard : c;
-          })
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        //обратим действие временной функции так как сервер вернул ошибку
-        tempToggleLikeCard(card, !isLiked);
-      });
+    toggleLikeCard(card, isLiked, setUpdateCard);
+    try {
+      await apiServer.setLikeCard(isLiked, card._id);
+    } catch (err) {
+      console.log(err);
+      //обратим действие установочной функции так как сервер вернул ошибку
+      toggleLikeCard(card, !isLiked, setUpdateCard);
+    }
+    setUpdateCard(false);
+    setNeedUpdateViewLike(false);
   }
 
   function handleCardDelete(card) {
@@ -150,6 +156,7 @@ function App() {
     setIsConfirmDeletePopupOpen(false);
     setIsImagePopupOpen(false);
     setIsViewAuthorPopupOpen(false);
+    setIsViewLikePopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -162,19 +169,20 @@ function App() {
     }
   }
 
-  function handleHoverCardCaption(card) {
-    // console.log(isViewAuthorPopupOpen);
-    // if (isViewAuthorPopupOpen) {
-    //   return;
-    // }
-    // console.log('naveli');
-    // setSelectedCard(card);
-    // setIsViewAuthorPopupOpen(true);
+  function handleHoverCardCaption(card, area) {
+    setSelectedCard(card);
+    setPopupOutputArea(area);
+    setIsViewAuthorPopupOpen(true);
   }
 
-  function handleOutHoverCardCaption() {
-    // console.log('closed');
-    // handleCloseAllPopups();
+  function handleOutHover() {
+    handleCloseAllPopups();
+  }
+
+  function handleHoverLikeCard(card, area) {
+    setSelectedCard(card);
+    setPopupOutputArea(area);
+    setIsViewLikePopupOpen(true);
   }
 
   //Ибо тернарный оператор выглядит уродливо
@@ -191,7 +199,7 @@ function App() {
               onAddCard={handleAddCardClick}
               onClose={handleCloseAllPopups} onCardClick={handleCardClick} onCardLike={handleCardLike}
               onCardDelete={handleCardDelete} onHoverCardCaption={handleHoverCardCaption}
-              onOutHoverCardCaption={handleOutHoverCardCaption}/>
+              onHoverLikeCard={handleHoverLikeCard} onOutHover={handleOutHover}/>
 
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups}
                          onUpdateAvatar={handleUpdateAvatar} onCheckValidation={checkInputValidation}/>
@@ -203,7 +211,10 @@ function App() {
                             onDeleteCard={handleDeleteCardSubmit}/>
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={handleCloseAllPopups}/>
 
-        <ViewAuthorPopup card={selectedCard} isOpen={isViewAuthorPopupOpen}/>
+        <ViewAuthorPopup card={selectedCard} popupOutputArea={popupOutputArea} isOpen={isViewAuthorPopupOpen}/>
+
+        <ViewLikePopup card={selectedCard} popupOutputArea={popupOutputArea} isOpen={isViewLikePopupOpen}
+                       needUpdateViewLike={needUpdateViewLike}/>
 
         <Footer/>
       </div>
