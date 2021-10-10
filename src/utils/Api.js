@@ -11,7 +11,11 @@ class Api {
     if (result.ok) {
       return result.json();
     } else {
-      return Promise.reject(`Ошибка: ${result.status} ${result.statusText}`);
+      return Promise.reject({
+        status: result.status,
+        message: result.statusText,
+        url: result.url
+      });
     }
   }
 

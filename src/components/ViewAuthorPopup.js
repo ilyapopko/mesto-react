@@ -1,13 +1,11 @@
-import React, {useRef} from 'react';
-
+const MIN_HEIGHT_POPUP = 184;
 const ViewAuthorPopup = ({isOpen, card, popupOutputArea}) => {
-  const refDialog = useRef();
-
   function setPosition() {
     if (!isOpen) {
       return {};
     }
-    if (popupOutputArea.clientY < refDialog.current.offsetHeight) {
+    //Костыльный расчет приблизительной высоты так как размер дива измениться после подстановки значений
+    if (popupOutputArea.clientY < MIN_HEIGHT_POPUP) {
       //места для вывода окошка не хватает - выводим вниз
       return {left: popupOutputArea.left, top: popupOutputArea.top + popupOutputArea.height};
     }
@@ -15,11 +13,10 @@ const ViewAuthorPopup = ({isOpen, card, popupOutputArea}) => {
   }
 
   return (
-    <div ref={refDialog} className={`popup popup_type_view-author ${isOpen ? 'popup_opened' : ''}`}
-         style={setPosition()}>
+    <div className={`popup popup_type_view-author ${isOpen ? 'popup_opened' : ''}`} style={setPosition()}>
       <img className="popup__card-author-avatar" src={isOpen ? card.owner.avatar : ''} alt="Аватарка"/>
-      <p className="popup__card-author-name">{isOpen ? card.owner.name : '-'}</p>
-      <p className="popup__card-author-about">{isOpen ? card.owner.about : '-'}</p>
+      <p className="popup__card-author-name">{isOpen ? card.owner.name : ''}</p>
+      <p className="popup__card-author-about">{isOpen ? card.owner.about : ''}</p>
     </div>
   );
 };

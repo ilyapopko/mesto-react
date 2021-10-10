@@ -81,3 +81,9 @@
 @import url("./blocks/popup/__next-image/popup__next-image.css");
 @import url("./blocks/popup/__previous-button/popup__previous-button.css");
 @import url("./blocks/popup/__previous-image/popup__previous-image.css");
+
+@import url("./blocks/popup/__error-container/popup__error-container.css");
+@import url("./blocks/popup/__error/popup__error.css");
+@import url("./blocks/popup/__error-header/popup__error-header.css");
+@import url("./blocks/popup/__error-icon/popup__error-icon.css");
+@import url("./blocks/popup/__error-caption/popup__error-caption.css");

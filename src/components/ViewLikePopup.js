@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {formattingUserCount} from "../utils/utils";
 import LikeUser from "./LikeUser";
 
@@ -12,8 +12,6 @@ const ViewLikePopup = ({isOpen, card, popupOutputArea, needUpdateViewLike}) => {
     // needUpdateView[1](needUpdateViewLike);
     setNeedUpdateView(needUpdateViewLike);
   }, [needUpdateViewLike]);
-
-  const refDialog = useRef();
 
   function setPosition() {
     if (!isOpen) {
@@ -29,8 +27,7 @@ const ViewLikePopup = ({isOpen, card, popupOutputArea, needUpdateViewLike}) => {
   }
 
   return (
-    <div ref={refDialog} className={`popup popup_type_view-likes ${isOpen ? 'popup_opened' : ''}`}
-         style={setPosition()}>
+    <div className={`popup popup_type_view-likes ${isOpen ? 'popup_opened' : ''}`} style={setPosition()}>
       <h2
         className="popup__header popup__header_size_small">
         {`Оценили:  ${isOpen ? card.likes.length : 0} ${isOpen ? formattingUserCount(card.likes.length) : 'человек'}:`}

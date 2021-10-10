@@ -12,6 +12,7 @@ import ViewAuthorPopup from "./ViewAuthorPopup";
 import ViewLikePopup from "./ViewLikePopup";
 import {apiServer} from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import ErrorPopup from "./ErrorPopup";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +38,14 @@ function App() {
     clientY: 0
   });
 
+  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({status: null, message: null, url: null});
+
+  function showError(err) {
+    setErrorMessage(err);
+    setIsErrorPopupOpen(true);
+    console.log(err);
+  }
 
   useEffect(() => {
     apiServer.getUserProperties()
@@ -45,7 +54,7 @@ function App() {
         // setIsLoading(false);
       })
       .catch(err => {
-        console.log(err);
+        showError(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -58,7 +67,7 @@ function App() {
         setCards(cardsData);
       })
       .catch(err => {
-        console.log(err);
+        showError(err);
       });
   }, []);
 
@@ -76,7 +85,7 @@ function App() {
       setCurrentUser(updateData);
       handleCloseAllPopups();
     } catch (err) {
-      console.log(err);
+      showError(err);
     }
   }
 
@@ -86,7 +95,7 @@ function App() {
       setCurrentUser(updateData);
       handleCloseAllPopups();
     } catch (err) {
-      console.log(err);
+      showError(err);
     }
   }
 
@@ -117,7 +126,7 @@ function App() {
     try {
       await apiServer.setLikeCard(isLiked, card._id);
     } catch (err) {
-      console.log(err);
+      showError(err);
       //обратим действие установочной функции так как сервер вернул ошибку
       toggleLikeCard(card, !isLiked, setUpdateCard);
     }
@@ -159,7 +168,7 @@ function App() {
       }
       handleCloseAllPopups();
     } catch (err) {
-      console.log(err);
+      showError(err);
     }
   }
 
@@ -171,7 +180,7 @@ function App() {
       });
       handleCloseAllPopups();
     } catch (err) {
-      console.log(err);
+      showError(err);
     }
   }
 
@@ -185,6 +194,10 @@ function App() {
     setIsViewLikePopupOpen(false);
     setNeedUpdateViewLike(false);
     setSelectedCard(null);
+  }
+
+  function handleCloseErrors() {
+    setIsErrorPopupOpen(false);
   }
 
   function checkInputValidation(input, setValid, setErrorMessage) {
@@ -243,6 +256,8 @@ function App() {
 
         <ViewLikePopup card={selectedCard} popupOutputArea={popupOutputArea} isOpen={isViewLikePopupOpen}
                        needUpdateViewLike={needUpdateViewLike}/>
+
+        <ErrorPopup isOpen={isErrorPopupOpen} errorMessage={errorMessage} onClose={handleCloseErrors}/>
 
         <Footer/>
       </div>
