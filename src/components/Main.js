@@ -5,7 +5,7 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 const Main = ({
                 onEditAvatar,
                 onEditProfile,
-                onAddCard,
+                onSaveCard,
                 cards,
                 onCardClick,
                 onCardLike,
@@ -29,7 +29,7 @@ const Main = ({
         <button className="profile__edit-button" type="button" aria-label="Редактировать профиль"
                 onClick={onEditProfile}/>
         <p className="profile__specialization">{currentUser.about}</p>
-        <button className="profile__add-button" type="button" aria-label="Добавить фото" onClick={onAddCard}/>
+        <button className="profile__add-button" type="button" aria-label="Добавить фото" onClick={onSaveCard}/>
       </section>
       <section className="cards">
         {cards.map(item => {
