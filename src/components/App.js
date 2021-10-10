@@ -42,10 +42,13 @@ function App() {
     apiServer.getUserProperties()
       .then((userData) => {
         setCurrentUser(userData);
-        setIsLoading(false);
+        // setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -233,7 +236,8 @@ function App() {
                        onCheckValidation={checkInputValidation} card={selectedCard}/>
         <ConfirmDeletePopup card={selectedCard} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups}
                             onDeleteCard={handleDeleteCardSubmit}/>
-        <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={handleCloseAllPopups}/>
+        <ImagePopup currentCard={selectedCard} setCurrentCard={setSelectedCard} cards={cards} isOpen={isImagePopupOpen}
+                    onClose={handleCloseAllPopups}/>
 
         <ViewAuthorPopup card={selectedCard} popupOutputArea={popupOutputArea} isOpen={isViewAuthorPopupOpen}/>
 
