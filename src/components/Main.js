@@ -10,6 +10,7 @@ const Main = ({
                 onCardClick,
                 onCardLike,
                 onCardDelete,
+                onEditCard,
                 onHoverCardCaption,
                 onHoverLikeCard,
                 onOutHover
@@ -34,7 +35,7 @@ const Main = ({
         {cards.map(item => {
           return (
             <Card key={item._id} card={item} onCardClick={onCardClick} onCardLike={onCardLike}
-                  onCardDelete={onCardDelete} onHoverCardCaption={onHoverCardCaption} onHoverLikeCard={onHoverLikeCard}
+                  onCardDelete={onCardDelete} onEditCard={onEditCard} onHoverCardCaption={onHoverCardCaption} onHoverLikeCard={onHoverLikeCard}
                   onOutHover={onOutHover}/>
           )
         })

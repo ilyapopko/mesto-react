@@ -26,7 +26,6 @@ const Popup = ({isOpen, onClose, name, children}) => {
 
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`} onMouseDown={handleCloseByOverlay}>
-      <button className="popup__close-button" type="button" aria-label="Закрыть" onClick={onClose}/>
       {children}
     </div>
   );

@@ -5,10 +5,12 @@ import LikeUser from "./LikeUser";
 const MIN_HEIGHT_POPUP = 45;
 
 const ViewLikePopup = ({isOpen, card, popupOutputArea, needUpdateViewLike}) => {
-  const needUpdateView = useState(false);
+  // const needUpdateView = useState(false);
+  const [needUpdateView, setNeedUpdateView] = useState(false);
 
   useEffect(() => {
-    needUpdateView[1](needUpdateViewLike);
+    // needUpdateView[1](needUpdateViewLike);
+    setNeedUpdateView(needUpdateViewLike);
   }, [needUpdateViewLike]);
 
   const refDialog = useRef();

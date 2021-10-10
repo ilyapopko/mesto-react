@@ -125,10 +125,35 @@ function App() {
     setIsConfirmDeletePopupOpen(true);
   }
 
-  async function handleAddCardSubmit(data) {
+  function handleEditCard(card) {
+    setSelectedCard(card);
+    setIsAddCardPopupOpen(true);
+  }
+
+
+  async function handleAddCard(data) {
+    const newCard = await apiServer.addCard(data);
+    setCards([newCard, ...cards]);
+  }
+
+  //Функция временная, так как у сервера нет методов PATCH или PUT для карточек
+  //TODO: Переделать после реализации backend
+  async function handleSaveCard(card, data) {
+    //Сначала удаляем карточку по алгоритму удаления
+    await apiServer.deleteCard(card._id);
+    //Дальше добавляем карточку по алгоритму добавления
+    const newCard = await apiServer.addCard(data);
+    //Обновляем список по алгоритму лайка из рефа
+    setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+  }
+
+  async function handleSaveCardSubmit(card, data) {
     try {
-      const newCard = await apiServer.addCard(data);
-      setCards([newCard, ...cards]);
+      if (!card) {
+        await handleAddCard(data);
+      } else {
+        await handleSaveCard(card, data);
+      }
       handleCloseAllPopups();
     } catch (err) {
       console.log(err);
@@ -197,15 +222,15 @@ function App() {
               onEditProfile={handleEditProfileClick}
               onAddCard={handleAddCardClick}
               onClose={handleCloseAllPopups} onCardClick={handleCardClick} onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete} onHoverCardCaption={handleHoverCardCaption}
+              onCardDelete={handleCardDelete} onEditCard={handleEditCard} onHoverCardCaption={handleHoverCardCaption}
               onHoverLikeCard={handleHoverLikeCard} onOutHover={handleOutHover}/>
 
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups}
                          onUpdateAvatar={handleUpdateAvatar} onCheckValidation={checkInputValidation}/>
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={handleCloseAllPopups}
                           onUpdateUser={handleUpdateUser} onCheckValidation={checkInputValidation}/>
-        <AddPlacePopup isOpen={isAddCardPopupOpen} onClose={handleCloseAllPopups} onAddCard={handleAddCardSubmit}
-                       onCheckValidation={checkInputValidation}/>
+        <AddPlacePopup isOpen={isAddCardPopupOpen} onClose={handleCloseAllPopups} onSaveCard={handleSaveCardSubmit}
+                       onCheckValidation={checkInputValidation} card={selectedCard}/>
         <ConfirmDeletePopup card={selectedCard} isOpen={isConfirmDeletePopupOpen} onClose={handleCloseAllPopups}
                             onDeleteCard={handleDeleteCardSubmit}/>
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={handleCloseAllPopups}/>

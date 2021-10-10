@@ -12,6 +12,7 @@ const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitDescriptio
                   disabled={isSubmitDisabled}
           >{submitDescription}</button>
         </fieldset>
+        <button className="popup__close-button" type="button" aria-label="Закрыть" onClick={onClose}/>
       </form>
     </Popup>
   );

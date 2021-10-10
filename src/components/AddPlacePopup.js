@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
 
-const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
+const AddPlacePopup = ({isOpen, onClose, onSaveCard, onCheckValidation, card}) => {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const [isNameValid, setIsNameValid] = useState(false);
@@ -12,15 +12,22 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   useEffect(() => {
-    setName('');
-    setLink('');
-    setIsNameValid(false);
-    setIsLinkValid(false);
+    if (!card) {
+      setName('');
+      setLink('');
+      setIsNameValid(false);
+      setIsLinkValid(false);
+      setIsSubmitDisabled(true);
+    } else {
+      setName(card.name);
+      setLink(card.link);
+      setIsNameValid(true);
+      setIsLinkValid(true);
+      setIsSubmitDisabled(false);
+    }
     setErrorMessageName('');
     setErrorMessageLink('');
-    setIsSubmitDisabled(true);
-
-  }, [isOpen]);
+  }, [isOpen, card]);
 
   useEffect(() => {
     setIsSubmitDisabled(!(isNameValid && isLinkValid));
@@ -40,10 +47,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
     e.preventDefault();
     setIsLoading(true);
     setIsSubmitDisabled(true);
-    onAddCard({
-      name,
-      link
-    })
+    onSaveCard(card, {name, link})
       .finally(() => {
         setIsLoading(false);
         setIsSubmitDisabled(false);
@@ -51,8 +55,10 @@ const AddPlacePopup = ({isOpen, onClose, onAddCard, onCheckValidation}) => {
   }
 
   return (
-    <PopupWithForm title="Новое место" name="add-card" isOpen={isOpen} onClose={onClose}
-                   submitDescription={isLoading ? 'Добавление...' : 'Добавить'} onSubmit={handleSubmit}
+    <PopupWithForm title={!card ? 'Новое место' : 'Редактирование места'} name="add-card" isOpen={isOpen}
+                   onClose={onClose}
+                   submitDescription={isLoading ? !card ? 'Добавление...' : 'Сохранение...' : !card ? 'Добавить' : 'Сохранить'}
+                   onSubmit={handleSubmit}
                    isSubmitDisabled={isSubmitDisabled}>
       <input value={name} type="text" className="popup__edit-field" id="place-name" placeholder="Название" name="name"
              minLength="2" maxLength="30" required onChange={handleNameChange}/>
