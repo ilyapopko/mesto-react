@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Popup from "./Popup";
 
 const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, submitDescription, children, isSubmitDisabled}) => {

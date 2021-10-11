@@ -1,7 +1,7 @@
 import Popup from "./Popup";
 import previousButtonIcon from "../images/arrowLeft.svg";
 import nextButtonIcon from "../images/arrowRight.svg";
-import {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 
 const ImagePopup = ({isOpen, onClose, currentCard, setCurrentCard, cards}) => {
 

@@ -10,9 +10,10 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import ViewAuthorPopup from "./ViewAuthorPopup";
 import ViewLikePopup from "./ViewLikePopup";
+import ErrorPopup from "./ErrorPopup";
 import {apiServer} from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
-import ErrorPopup from "./ErrorPopup";
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -142,12 +143,12 @@ function App() {
     setIsAddCardPopupOpen(true);
   }
 
-
   async function handleAddCard(data) {
     const newCard = await apiServer.addCard(data);
     setCards([newCard, ...cards]);
   }
 
+  //Согласен что это лукавство, но в будущем эту функциональность обязательно реализую на бэке, а сейчас... так сойдет
   //Функция временная, так как у сервера нет методов PATCH или PUT для карточек
   //TODO: Переделать после реализации backend
   async function handleSaveCard(card, data) {

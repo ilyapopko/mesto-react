@@ -18,7 +18,7 @@ const ConfirmDeletePopup = ({isOpen, onClose, onDeleteCard, onSetSubmitDisabled,
   }
 
   return (
-    <PopupWithForm title="Вы уверены?" name="confirmDelete" isOpen={isOpen}
+    <PopupWithForm title="Вы уверены?" name="confirm-delete" isOpen={isOpen}
                    onClose={onClose} submitDescription={isLoading ? 'Удаление...' : 'Да'}
                    onSubmit={handleSubmit} isSubmitDisabled={isSubmitDisabled}/>
   );

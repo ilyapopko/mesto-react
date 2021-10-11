@@ -1,3 +1,5 @@
+import React from 'react';
+
 const MIN_HEIGHT_POPUP = 184;
 const ViewAuthorPopup = ({isOpen, card, popupOutputArea}) => {
   function setPosition() {
