@@ -1,7 +1,7 @@
-import React, {useContext, useRef, useState} from 'react';
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import React, { useContext, useRef, useState } from 'react';
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const Card = ({card, onCardClick, onCardLike, onCardDelete, onEditCard, onHoverCardCaption, onHoverLikeCard, onOutHover}) => {
+const Card = ({ card, onCardClick, onCardLike, onCardDelete, onEditCard, onHoverCardCaption, onHoverLikeCard, onOutHover }) => {
   const currentUser = useContext(CurrentUserContext);
   const imageRef = useRef();
   const captionRef = useRef();
@@ -68,22 +68,22 @@ const Card = ({card, onCardClick, onCardLike, onCardDelete, onEditCard, onHoverC
   return (
     <article className="card">
       <img src={card.link} alt={`Фотография ${card.name}`} className="card__image" ref={imageRef}
-           onClick={handleClick} onLoad={handleSetupImageProperties}/>
+        onClick={handleClick} onLoad={handleSetupImageProperties} />
       <div className="card__button-container">
         <button
           className={`card__delete-button ${isOwn ? 'card__delete-button_visible' : ''}`}
-          type="button" aria-label="Удалить карточку" onClick={handleDeleteClick}/>
+          type="button" aria-label="Удалить карточку" onClick={handleDeleteClick} />
         <button
           className={`card__edit-button ${isOwn ? 'card__edit-button_visible' : ''}`}
-          type="button" aria-label="Редактировать карточку" onClick={handleEditClick}/>
+          type="button" aria-label="Редактировать карточку" onClick={handleEditClick} />
       </div>
       <div className="card__description">
         <h2 className="card__caption" ref={captionRef} onMouseEnter={handleShowAuthorInfo}
-            onMouseOut={handleHideInfo}>{card.name}</h2>
+          onMouseOut={handleHideInfo}>{card.name}</h2>
         <div className="card__like-container">
           <button className={`card__like-button ${isLiked ? 'card__like-button_active' : ''}`} type="button"
-                  aria-label="Лайкнуть" onClick={handleLikeClick}
-                  ref={likeRef} onMouseEnter={handleShowLikeInfo} onMouseOut={handleHideInfo}/>
+            aria-label="Лайкнуть" onClick={handleLikeClick}
+            ref={likeRef} onMouseEnter={handleShowLikeInfo} onMouseOut={handleHideInfo} />
           <p className="card__like-count">{card.likes.length}</p>
         </div>
       </div>
