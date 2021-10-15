@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/mesto-reactstatic/css/main.6f90ae6f.chunk.css",
-    "main.js": "/mesto-reactstatic/js/main.0c2bebdb.chunk.js",
-    "main.js.map": "/mesto-reactstatic/js/main.0c2bebdb.chunk.js.map",
-    "runtime-main.js": "/mesto-reactstatic/js/runtime-main.80577e5b.js",
-    "runtime-main.js.map": "/mesto-reactstatic/js/runtime-main.80577e5b.js.map",
-    "static/js/2.07b2a0fd.chunk.js": "/mesto-reactstatic/js/2.07b2a0fd.chunk.js",
-    "static/js/2.07b2a0fd.chunk.js.map": "/mesto-reactstatic/js/2.07b2a0fd.chunk.js.map",
-    "index.html": "/mesto-reactindex.html",
-    "static/css/main.6f90ae6f.chunk.css.map": "/mesto-reactstatic/css/main.6f90ae6f.chunk.css.map",
-    "static/js/2.07b2a0fd.chunk.js.LICENSE.txt": "/mesto-reactstatic/js/2.07b2a0fd.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/mesto-reactstatic/media/logo.9acae848.svg",
-    "static/media/arrowLeft.204d992b.svg": "/mesto-reactstatic/media/arrowLeft.204d992b.svg",
-    "static/media/arrowRight.b428b653.svg": "/mesto-reactstatic/media/arrowRight.b428b653.svg",
-    "static/media/errorIcon.be98943b.svg": "/mesto-reactstatic/media/errorIcon.be98943b.svg"
+    "main.css": "/ilyapopko/mesto-reactstatic/css/main.744e8532.chunk.css",
+    "main.js": "/ilyapopko/mesto-reactstatic/js/main.0c2bebdb.chunk.js",
+    "main.js.map": "/ilyapopko/mesto-reactstatic/js/main.0c2bebdb.chunk.js.map",
+    "runtime-main.js": "/ilyapopko/mesto-reactstatic/js/runtime-main.72569114.js",
+    "runtime-main.js.map": "/ilyapopko/mesto-reactstatic/js/runtime-main.72569114.js.map",
+    "static/js/2.07b2a0fd.chunk.js": "/ilyapopko/mesto-reactstatic/js/2.07b2a0fd.chunk.js",
+    "static/js/2.07b2a0fd.chunk.js.map": "/ilyapopko/mesto-reactstatic/js/2.07b2a0fd.chunk.js.map",
+    "index.html": "/ilyapopko/mesto-reactindex.html",
+    "static/css/main.744e8532.chunk.css.map": "/ilyapopko/mesto-reactstatic/css/main.744e8532.chunk.css.map",
+    "static/js/2.07b2a0fd.chunk.js.LICENSE.txt": "/ilyapopko/mesto-reactstatic/js/2.07b2a0fd.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/ilyapopko/mesto-reactstatic/media/logo.9acae848.svg",
+    "static/media/arrowLeft.204d992b.svg": "/ilyapopko/mesto-reactstatic/media/arrowLeft.204d992b.svg",
+    "static/media/arrowRight.b428b653.svg": "/ilyapopko/mesto-reactstatic/media/arrowRight.b428b653.svg",
+    "static/media/errorIcon.be98943b.svg": "/ilyapopko/mesto-reactstatic/media/errorIcon.be98943b.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.80577e5b.js",
+    "static/js/runtime-main.72569114.js",
     "static/js/2.07b2a0fd.chunk.js",
-    "static/css/main.6f90ae6f.chunk.css",
+    "static/css/main.744e8532.chunk.css",
     "static/js/main.0c2bebdb.chunk.js"
   ]
 }
