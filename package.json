@@ -42,5 +42,14 @@
   "devDependencies": {
     "gh-pages": "^3.2.3"
   },
-  "homepage": "https://github.com/ilyapopko/mesto-react#readme"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilyapopko/mesto-react.git/"
+  },
+  "author": "Ilya Popko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilyapopko/mesto-react/issues/"
+  },
+  "homepage": "https://github.com/mesto-react/#readme"
 }
